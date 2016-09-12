@@ -19,8 +19,9 @@ class Sort
 		void print();
 		void bubleSort();
 		void insertionSort();
-  		//void quickSort();
-  		//T partQuick();
+  		void qs();
+  		void quickSort(T,T);
+  		T partQuick(T,T);
  		
 };
 
@@ -67,6 +68,41 @@ void Sort<T>::insertionSort()
     }
 }
 
+template<class T>
+void Sort<T>::qs()
+{
+	quickSort(0,len-1);
+}
+
+template<class T>
+void Sort<T>::quickSort(T left, T right)
+{
+    if(left < right)
+    {
+    T pivot = partQuick(left, right);
+        if(pivot > 1)
+            quickSort(left, pivot - 1);
+        if(pivot + 1 < right)
+            quickSort(pivot + 1, right);
+    }
+}
+
+template<class T>
+T Sort<T>::partQuick(T left,T right)
+{
+T pivot = *(list + left);
+while (true)
+	{
+    while (*(list + left) < pivot)
+    left++;
+    while (*(list + right) > pivot)
+    right--;
+    if (left < right)
+       swap( *(list + left),  *(list + right));
+    else
+    return right;
+	}   
+}
 
 
 #endif // SORT_H
