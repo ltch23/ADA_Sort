@@ -1,26 +1,26 @@
-#include <iostream>
 #include "Sort.h"
-typedef int T;
+#include <iostream>
+#include <time.h>
+#include <stdlib.h>
 
 using namespace std;
 
-
-int main( )
+int main()
 {
-	Sort<int> sort1(10);
-	int op;
-	cin>>op;
-	if(op==1)
-	sort1.bubleSort();
-	else if(op==2)
-	sort1.insertionSort();
-	else if(op==3)
-	sort1.qs();
-	else
-		return 0;
-	sort1.print();
-	
-
+	int * list1;
+	int tam, opc;
+	cout<<"ingrese cantidad de numeros: ";
+	cin>>tam;
+	list1= new int[tam];
+	Sort<int> sort1(tam);
+	sort1.generator(list1);
+	cout<<"Lista\n";
+	sort1.print(list1);
+	clock_t start = clock();
+	sort1.mergeSort(list1,0,tam-1);
+	clock_t end = clock();
+    cout	<<"Lista Ordenada\n";sort1.print(list1);
+    cout << "Time : " << double(end - start)/CLOCKS_PER_SEC <<endl;
 	return 0;
 }
 

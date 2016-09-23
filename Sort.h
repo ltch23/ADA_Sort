@@ -1,156 +1,143 @@
 #ifndef SORT_H
 #define SORT_H
 
+#include <vector>
 #include <iostream>
-
 using namespace std;
-
 
 template<class T>
 class Sort
 {
 	private:
-		int len;
-		T* list=new int[len];
-		T* time1 =new int [10];
-		T* time2 =new int [10];
-		T* time3 =new int [10];
+		int tam;
 
 	public:
 		
-		Sort(T);
-		void print();
-		void printq();
-		void bubleSort();
-	
-		void insertionSort();
-  		void qs();
-  		void quickSort(T,T);
-  		T partQuick(T,T);
- 		
+		Sort(int _tam);
+		void print(T* list);
+		void generator(T* list);
+
+		void bubleSort(T* list);
+		
+        void insertionSort(T* list);
+  		
+  		void quickSort(T* list, T left, T right);
+  		T partQuick(T* list, T left, T right);
+
+  		void mergeSort(T* list, T left, T right);
+  		void partMerge(T* list, T left, T mid, T right);
+  		
 };
 
 template<class T>
-Sort<T>::Sort(T _len)
+Sort<T>::Sort(int _tam)
 {
-	int i,j;
-	len=j=_len;
-	for( i=0;i<len;i++)
-	*(list+i)=j, j--;
-	
-	time1[0]=time1[1]=time1[2]=time1[3]=time1[4]=0;
-	time2[0]=time2[1]=time2[2]=time2[3]=time2[4]=0;
-	time3[0]=time3[1]=time3[2]=time3[3]=time3[4]=time3[5]=time3[6]=time3[7]=time3[8]=0;
-
+    tam = _tam ;
 }
-
 template<class T>
-void Sort<T>::print()
+void Sort<T>::generator(T * list)
 {
-	for(int i=0;i<len;i++)
-	cout<<*(list+i)<<" ";
-	std::cout<<std::endl;
-	
+srand(time (NULL));
+for(int i=0;i<tam;i++)
+    *(list+i)=rand()% tam +1;
 }
-
 template<class T>
-void Sort<T>::printq()
-{	
-	for (int i=0;i<8;i++)
-	{
-		time3[8]=time3[8]+time3[i];
-		cout<<i<<" : "<< *(time3+i)<<"\n";
-	}
-	cout<<"complejidad: "<<time3[3]+time3[4]+time3[5]+time3[6]+time3[7]<<endl;
-	cout<<"instrucciones: "<<time3[8]<<endl;
-}
-
-template<class T>
-void Sort<T>::bubleSort()
+void Sort<T>::print(T* list)
 {
-	cout << "\tBubleSort" <<endl;
-	for(int i=0;i<len;i++)
-	{
-	time1[0]=time1[0]+1;	
-	for(int j=0;j<len-i;j++)
-	{time1[1]=time1[1]+1;
-		if(*(list+j+1)<*(list+j))
-			swap(*(list+j+1),*(list+j)),time1[2]=time1[2]+1, time1[3]=time2[3]+1;
-	}
-	}
-
-	for (int j=0;j<4;j++)
-	{
-	time1[4]=time1[4]+time1[j];
-	cout<<j<<" : "<<time1[j]<<endl;
-	}
-	cout<<"complejidad: "<<time1[0]+time1[1]+time1[3]<<endl;
-	cout<<"sumatoria: "<<time1[4]<<endl;
+    for (int i=0 ; i<tam ;i++)
+        cout << *(list+i)<< " " ;
+    cout << endl;
 }
-
 template<class T>
-void Sort<T>::insertionSort()
+void Sort<T>::bubleSort(T* list)
 {
-    cout << "\tInsertionSort" <<endl;
-    for (int i=0;i<len;i++)
+    cout << "BubleSort"<< endl;
+    int i ,j;
+    for(i=0; i<tam-i ; i++)
+        for (j=0 ; j<tam ; j++)
+            if ( *(list+j+1) < *(list+j))
+                swap(*(list+j),*(list+j+1));
+}
+template<class T>
+void Sort<T>::insertionSort(T * list)
+{
+    cout << "InesertionSort" <<endl;
+    int i,j,tmp;
+    for (i=0;i<tam;i++)
     {
-    	time2[0]=time2[0]+1;
-        T tmp=*(list+i);time2[2]=time2[2]+1;
-        int j=i-1;
+        tmp=*(list+i);
+        j=i-1;
         for(j>=0;*(list+j)>tmp;j--)
-            *(list+j+1)=*(list+j),time2[1]=time2[1]+2;
+            *(list+j+1)=*(list+j);
         *(list+j+1)=tmp;
-        time2[3]=time2[3]+1;
-    }	
-
- 	for (int j=0;j<4;j++)
-	{
-	time2[4]=time2[4]+time2[j];
-	cout<<j<<": "<<time2[j]<<endl;
-	}
-	cout<<"complejidad: "<<time2[0]+time2[1]<<endl;
-	cout<<"instrucciones: "<<time2[4]<<endl;
-}
-
-template<class T>
-void Sort<T>::qs()
-{
-	cout<<"\tquickSort\n";
-	quickSort(0,len-1);
-	printq();
-}
-
-template<class T>
-void Sort<T>::quickSort(T left, T right)
-{
-    if(left < right)
-    {
-    time3[0]=time3[0]+1;
-    T pivot = partQuick(left, right);
-        if(pivot > 1)
-            quickSort(left, pivot - 1),time3[1]=time3[1]+1;
-        if(pivot + 1 < right)
-            quickSort(pivot + 1, right); time3[2]=time3[2]+1;
     }
 }
 
 template<class T>
-T Sort<T>::partQuick(T left,T right)
-{
-T pivot = *(list + left);
-while (true)
-	{time3[3]=time3[3]+1;
-	while (*(list + left) < pivot)
-    left++,time3[4]=time3[4]+1;
-    while (*(list + right) > pivot)
-    right--,time3[5]=time3[5]+1;
-    if (left < right)
-       swap( *(list + left),  *(list + right)),time3[6]=time3[6]+1;
-    else
-    time3[7]=time3[7]+1;
-    return right;
-	}   
+T Sort<T>::partQuick(T* list, T left, T right)
+    {
+    T pivot = *(list + left);
+    while (true)
+    {
+        while (*(list + left) < pivot)
+        left++;
+        while (*(list + right) > pivot)
+        right--;
+        if (left < right)
+           swap( *(list + left),  *(list + right));
+        else
+        return right;
+    }   
 }
+template<class T>
+void Sort<T>::quickSort(T* list1, T left, T right)
+{
+    if(left < right)
+    {
+    T pivot = partQuick(list1, left, right);
+        if(pivot > 1)
+            quickSort(list1, left, pivot - 1);
+        if(pivot + 1 < right)
+            quickSort(list1, pivot + 1, right);
+    }
+}
+template<class T>
+void Sort<T>::partMerge(T *list, T left, T right, T mid)
+{   
+    T i = left;T j = mid + 1;
+    T k = left; T tmp[tam];
+
+    while (i <= mid and j <= right)
+    {
+        if (*(list+i) < *(list+j))
+        {   *(tmp+k) = *(list+i);
+            i++;}
+        else
+        {   *(tmp+k) = *(list+j);
+            j++;}
+    k++;
+    }
+    while (i <= mid)
+        *(tmp+ k++)= *(list+ i++);
+    while (j <= right) 
+        *(tmp+ k++) = *(list+ j++);
+    for (i = left; i < k; ++i)
+        *(list+ i) = *(tmp+i);
+}
+
+template<class T>
+void Sort<T>::mergeSort(T *list, T left, T right)
+{
+    T mid;
+    if (left < right)
+    {
+        mid = (left + right) / 2;
+        mergeSort(list, left, mid);
+        mergeSort(list, mid + 1, right);
+        partMerge(list, left, right, mid);
+    }
+}
+
 
 
 #endif // SORT_H
