@@ -20,6 +20,7 @@ int main()
 	sort1.mergeSort(list1,0,tam-1);
 	clock_t end = clock();
     cout	<<"Lista Ordenada\n";sort1.print(list1);
+    sort1.printm();
     cout << "Time : " << double(end - start)/CLOCKS_PER_SEC <<endl;
 	return 0;
 }

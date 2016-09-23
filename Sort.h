@@ -10,6 +10,7 @@ class Sort
 {
 	private:
 		int tam;
+        vector<int> cont;
 
 	public:
 		
@@ -18,7 +19,6 @@ class Sort
 		void generator(T* list);
 
 		void bubleSort(T* list);
-		
         void insertionSort(T* list);
   		
   		void quickSort(T* list, T left, T right);
@@ -26,20 +26,21 @@ class Sort
 
   		void mergeSort(T* list, T left, T right);
   		void partMerge(T* list, T left, T mid, T right);
-  		
+        void printm();
 };
 
 template<class T>
 Sort<T>::Sort(int _tam)
 {
     tam = _tam ;
+    cont.push_back(0);cont.push_back(0);cont.push_back(0);cont.push_back(0);
 }
 template<class T>
 void Sort<T>::generator(T * list)
 {
-srand(time (NULL));
-for(int i=0;i<tam;i++)
-    *(list+i)=rand()% tam +1;
+    srand(time (NULL));
+    for(int i=0;i<tam;i++)
+        *(list+i)=rand()% tam +1;
 }
 template<class T>
 void Sort<T>::print(T* list)
@@ -72,7 +73,6 @@ void Sort<T>::insertionSort(T * list)
         *(list+j+1)=tmp;
     }
 }
-
 template<class T>
 T Sort<T>::partQuick(T* list, T left, T right)
     {
@@ -109,7 +109,8 @@ void Sort<T>::partMerge(T *list, T left, T right, T mid)
 
     while (i <= mid and j <= right)
     {
-        if (*(list+i) < *(list+j))
+        cont[0]++;
+         if (*(list+i) < *(list+j))
         {   *(tmp+k) = *(list+i);
             i++;}
         else
@@ -118,9 +119,11 @@ void Sort<T>::partMerge(T *list, T left, T right, T mid)
     k++;
     }
     while (i <= mid)
-        *(tmp+ k++)= *(list+ i++);
+        {*(tmp+ k++)= *(list+ i++);
+            cont[1]++;}
     while (j <= right) 
-        *(tmp+ k++) = *(list+ j++);
+        {*(tmp+ k++) = *(list+ j++);
+            cont[2]++;}
     for (i = left; i < k; ++i)
         *(list+ i) = *(tmp+i);
 }
@@ -138,6 +141,17 @@ void Sort<T>::mergeSort(T *list, T left, T right)
     }
 }
 
+template<class T>
+void Sort<T>::printm()
+{
+    for (int i=0;i<cont.size()-1;i++)
+    {
+        cout <<"time "<<i<<": "<<cont[i]<<endl;
+        cont[cont.size()]+=cont[i];
+    }
+    cout<<"complejidad: "<<cont[cont.size()]<<endl;
+
+}
 
 
 #endif // SORT_H
